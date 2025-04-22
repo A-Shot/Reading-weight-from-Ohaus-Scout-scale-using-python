@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scale Reader</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 2em; }
+        button { font-size: 1.2em; padding: 0.5em 1em; }
+        #output { margin-top: 2em; font-size: 2em; }
+    </style>
+</head>
+<body>
+    <h1>Weight Reader</h1>
+    <button onclick="getWeight()">Read Weight</button>
+    <div id="output">–</div>
+
+    <script>
+        async function getWeight() {
+            const output = document.getElementById('output');
+            output.textContent = 'Reading...';
+
+            try {
+                const response = await fetch('/read-weight');
+                const data = await response.json();
+                if (data.weight !== undefined) {
+                    output.textContent = `${data.weight} units`;
+                } else {
+                    output.textContent = 'Error reading weight';
+                }
+            } catch (err) {
+                output.textContent = 'Connection error';
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
